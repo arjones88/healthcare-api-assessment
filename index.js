@@ -109,8 +109,10 @@ class ResilientAPIClient {
     }
 
     getBackoffDealy(attempt) {
-        // Exponential backoff
-        pass;
+        // Exponential backoff with jitter
+        const exponDelay = this.initialDelay * 2 ** attempt;
+        const jitter = Math.random() * 1000;
+        return Math.min(exponDelay + jitter, 30000);
     }
 
     async throttle() {
