@@ -108,7 +108,7 @@ class ResilientAPIClient {
         }
     }
 
-    getBackoffDealy(attempt) {
+    getBackoffDelay(attempt) {
         // Exponential backoff with jitter
         const exponDelay = this.initialDelay * 2 ** attempt;
         const jitter = Math.random() * 1000;
@@ -117,7 +117,16 @@ class ResilientAPIClient {
 
     async throttle() {
         // rate limiting logic
-        pass;
+        const minInterval = 1000 / this.requestsPerSecond;
+        const now = Date.now();
+        const timeSinceLastRequest = now - this.lastRequestTime;
+
+        if (timeSinceLastRequest < minInterval) {
+            const waitTime = minInterval - timeSinceLastRequest;
+            await this.sleep(waitTime);
+        }
+
+        this.lastRequestTime = Date.now();
     }
 
     sleep(ms) {
