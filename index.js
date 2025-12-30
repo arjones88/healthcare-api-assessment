@@ -133,3 +133,32 @@ class ResilientAPIClient {
         return setTimeout(ms);
     }
 }
+
+class RiskAssessment {
+    static calculateBloodPressureRisk(systolic, diastolic) {
+        if (systolic === null || diastolic === null) return 0;
+        if (systolic < 120 && diastolic < 80) return 1;
+        if (systolic < 130 && diastolic < 80) return 2;
+        if (systolic < 140 || diastolic < 90) return 3;
+        if (systolic >= 140 || diastolic >= 90) return 4;
+    }
+
+    static calculateTemperatureRisk(temperature) {
+        if (temperature === null) return 0;
+        if (temperature < 99.5) return 0;
+        if (temperature < 101.0) return 1;
+        if (temperature >= 101.0) return 2;
+    }
+
+    static calculateAgeRisk(age) {
+        if (age === null) return 0;
+        if (age < 40) return 0;
+        if (age <= 65) return 1;
+        if (age > 65) return 2;
+    }
+
+    calculateTotalRisk(patient) {
+        // Calculate total risk score
+        pass;
+    }
+}
