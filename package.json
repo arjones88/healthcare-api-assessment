@@ -7,8 +7,5 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Amund Jones",
-    "license": "ISC",
-    "devDependencies": {
-        "dotenv": "^17.2.3"
-    }
+    "license": "ISC"
 }

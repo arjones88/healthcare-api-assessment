@@ -1,4 +1,4 @@
-require('dotenv').config();
+import { setTimeout } from 'node:timers/promises';
 
 class ResilientAPIClient {
     constructor(baseURL, apiKey, options = {}) {
@@ -119,6 +119,6 @@ class ResilientAPIClient {
     }
 
     sleep(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
+        return setTimeout(ms);
     }
 }
