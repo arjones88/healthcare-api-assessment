@@ -194,7 +194,33 @@ class RiskAssessment {
     }
 
     calculateTotalRisk(patient) {
-        // Calculate total risk score
-        pass;
+        const bp = DataValidator.validateBloodPressure(patient.blood_pressure);
+        const temp = DataValidator.validateTemperature(patient.temperature);
+        const age = DataValidator.validateAge(patient.age);
+
+        const bpRisk = RiskAssessment.calculateBloodPressureRisk(
+            bp.systolic,
+            bp.diastolic
+        );
+        const tempRisk = RiskAssessment.calculateTemperatureRisk(temp.value);
+        const ageRisk = RiskAssessment.calculateAgeRisk(age.value);
+
+        const hasDataQualityIssues = !(
+            bp.isValid &&
+            temp.isValid &&
+            age.isValid
+        );
+
+        const totalRisk = bpRisk + tempRisk + ageRisk;
+
+        return {
+            patientId: patient.patient_id,
+            bpRisk,
+            tempRisk,
+            ageRisk,
+            totalRisk,
+            hasDataQualityIssues,
+            hasFever: temp.isValid && temp.value >= 99.6,
+        };
     }
 }
