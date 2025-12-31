@@ -173,10 +173,10 @@ class DataValidator {
 class RiskAssessment {
     static calculateBloodPressureRisk(systolic, diastolic) {
         if (systolic === null || diastolic === null) return 0;
-        if (systolic < 120 && diastolic < 80) return 1;
-        if (systolic < 130 && diastolic < 80) return 2;
-        if (systolic < 140 || diastolic < 90) return 3;
-        if (systolic >= 140 || diastolic >= 90) return 4;
+        if (systolic < 120 && diastolic < 80) return 0;
+        if (systolic < 130 && diastolic < 80) return 1;
+        if (systolic < 140 || diastolic < 90) return 2;
+        if (systolic >= 140 || diastolic >= 90) return 3;
     }
 
     static calculateTemperatureRisk(temperature) {
