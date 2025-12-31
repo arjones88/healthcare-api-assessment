@@ -153,6 +153,14 @@ class DataValidator {
 
         return { systolic, diastolic, isValid };
     }
+
+    static validateTemperature(temp) {
+        const numValue = parseFloat(temp);
+
+        const isValid = !isNaN(numValue) && numValue >= 90 && numValue <= 120;
+
+        return { value: isValid ? numValue : null, isValid };
+    }
 }
 
 class RiskAssessment {
