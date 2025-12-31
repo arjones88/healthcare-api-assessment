@@ -134,6 +134,27 @@ class ResilientAPIClient {
     }
 }
 
+class DataValidator {
+    static validateBloodPressure(bpString) {
+        if (!bpString || typeof bpString !== 'string') {
+            return { systolic: null, diastolic: null, isValid: false };
+        }
+
+        const match = bpString.match(/^(\d+)?\/(\d+)?$/);
+
+        if (!match) {
+            return { systolic: null, diastolic: null, isValid: false };
+        }
+
+        const systolic = match[1] ? parseInt(match[1], 10) : null;
+        const diastolic = match[2] ? parseInt(match[2], 10) : null;
+
+        const isValid = systolic !== null && diastolic !== null;
+
+        return { systolic, diastolic, isValid };
+    }
+}
+
 class RiskAssessment {
     static calculateBloodPressureRisk(systolic, diastolic) {
         if (systolic === null || diastolic === null) return 0;
