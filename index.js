@@ -161,6 +161,13 @@ class DataValidator {
 
         return { value: isValid ? numValue : null, isValid };
     }
+
+    static validateAge(age) {
+        const numValue = parseInt(age, 10);
+        const isValid = !isNaN(numValue) && numValue > 0 && numValue < 120;
+
+        return { value: isValid ? numValue : null, isValid };
+    }
 }
 
 class RiskAssessment {
