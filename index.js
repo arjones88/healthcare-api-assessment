@@ -224,3 +224,61 @@ class RiskAssessment {
         };
     }
 }
+
+class PatientAnalyzer {
+    static analyzePatients(patients) {
+        const results = patients.map((patient) =>
+            RiskAssessment.calculateTotalRisk(patient)
+        );
+
+        const highRiskPatients = results
+            .filter((r) => r.totalRisk >= 4)
+            .map((r) => r.patientId);
+
+        const feverPatients = results
+            .filter((r) => r.hasFever)
+            .map((r) => r.patientId);
+
+        const dataQualityIssues = results
+            .filter((r) => r.hasDataQualityIssues)
+            .map((r) => r.patientId);
+
+        return {
+            highRiskPatients,
+            feverPatients,
+            dataQualityIssues,
+            summary: {
+                totalPatients: patients.length,
+                highRiskCount: highRiskPatients.length,
+                feverCount: feverPatients.length,
+                dataQualityIssuesCount: dataQualityIssues.length,
+            },
+        };
+    }
+
+    static printReport(analysis) {
+        console.log('\n===== PATIENT RISK ANALYSIS REPORT =====\n');
+
+        console.log(
+            `Total Patients Analyzed: ${analysis.summary.totalPatients}`
+        );
+        console.log(
+            `High-Risk Patients (Score ≥ 4): ${analysis.summary.highRiskCount}`
+        );
+        console.log(
+            `Fever Patients (Temp ≥ 99.6°F): ${analysis.summary.feverCount}`
+        );
+        console.log(
+            `Data Quality Issues: ${analysis.summary.dataQualityIssuesCount}`
+        );
+
+        console.log('\n--- High-Risk Patients ---');
+        console.log(analysis.highRiskPatients.join(', ') || 'None');
+
+        console.log('\n--- Fever Patients ---');
+        console.log(analysis.feverPatients.join(', ') || 'None');
+
+        console.log('\n--- Data Quality Issues ---');
+        console.log(analysis.dataQualityIssues.join(', ') || 'None');
+    }
+}
