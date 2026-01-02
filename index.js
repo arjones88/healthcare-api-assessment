@@ -282,3 +282,45 @@ class PatientAnalyzer {
         console.log(analysis.dataQualityIssues.join(', ') || 'None');
     }
 }
+
+async function main() {
+    const API_BASE_URL = 'https://assessment.ksensetech.com/api/patients';
+    const API_KEY = process.env.API_KEY;
+
+    if (!API_KEY) {
+        console.error('Error: API_KEY environment variable is not set.');
+        process.exit(1);
+    }
+
+    try {
+        const client = new ResilientAPIClient(API_BASE_URL, API_KEY, {
+            maxRetries: 5,
+            initialDelay: 1000,
+            requestsPerSecond: 2,
+            pageSize: 10,
+        });
+
+        const patients = await client.fetchAllPatients();
+
+        if (patients.length === 0) {
+            console.log('No patient data retrieved.');
+            return;
+        }
+
+        const analysis = PatientAnalyzer.analyzePatients(patients);
+
+        PatientAnalyzer.printReport(analysis);
+
+        return analysis;
+    } catch (error) {
+        console.error('Fatal error:', error.message);
+        process.exit(1);
+    }
+}
+
+if (require.main === module) {
+    main().catch((error) => {
+        console.error('Unhandled error:', error);
+        process.exit(1);
+    });
+}
